@@ -47,11 +47,10 @@ public class Board extends JPanel
 			g2d.drawLine(i, 0, i, frameLength);
 			g2d.drawLine(0, i, frameLength, i);
 		}
-		System.out.println("paint");
 		for (int i = 0; i < boardLength; i++) {
 			for (int j = 0; j < boardLength; j++) {
 				if (tiles[i][j].isVisible()) {
-					g2d.fillRect(i*tileLength, j*tileLength, tileLength, tileLength);
+					g2d.drawString(String.valueOf(tiles[i][j].getSurroundingMines()), i*tileLength+tileLength/2, j*tileLength+tileLength/2);
 				}
 				else if (tiles[i][j].hasFlag()) {
 					g2d.setColor(Color.RED);
@@ -65,8 +64,10 @@ public class Board extends JPanel
 	public void showTile(int x, int y)
 	{
 		Tile tile = tiles[x/tileLength][y/tileLength];
-		tile.show();
-		repaint();
+		if (!tile.hasFlag()) {
+			tile.show();
+			repaint();
+		}
 	}
 
 	public void flagTile(int x, int y)

@@ -20,6 +20,7 @@ public class Game
 	 */
 	public Game()
 	{
+		// Initialize sizes
 		frameLength = 500;
 		boardLength = 10;
 		
@@ -33,6 +34,8 @@ public class Game
 		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
+		
+		// TODO Initialize game state
 	}
 
 	/**
