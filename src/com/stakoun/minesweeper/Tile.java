@@ -13,8 +13,7 @@ public class Tile
 	 */
 	public Tile()
 	{
-		isMine = false;
-		hasFlag = false;
+		
 	}
 	
 	public void addMine() { isMine = true; }

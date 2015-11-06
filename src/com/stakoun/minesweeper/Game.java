@@ -1,10 +1,8 @@
 package com.stakoun.minesweeper;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 /**
  * The Game class controls all gameplay.
@@ -12,35 +10,29 @@ import javax.swing.JPanel;
  */
 public class Game
 {
-	private int frameLength;
-	private Dimension frameSize;
+	private int frameLength, boardLength;
+	private Dimension boardSize;
 	private JFrame frame;
-	private JPanel panel;
-	private int boardLength;
 	private Board board;
-	private int tileLength;
 	
 	/**
 	 * The sole constructor for the Game class.
 	 */
 	public Game()
 	{
-		// Initialize game frame and panel
-		frameSize = new Dimension(frameLength, frameLength);
-		frame = new JFrame("Minesweeper");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setMinimumSize(frameSize);
-		panel = new JPanel();
-		panel.setSize(frameSize);
-		frame.add(panel);
-		frame.setVisible(true);
+		frameLength = 500;
+		boardLength = 10;
 		
 		// Initialize game board
-		boardLength = 20;
-		board = new Board(boardLength);
-		
-		// Initialize tiles
-		tileLength = frameLength/boardLength;
+		boardSize = new Dimension(500, 500);
+		frame = new JFrame("Minesweeper");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		board = new Board(frameLength, boardLength);
+		board.setPreferredSize(boardSize);
+		frame.add(board);
+		frame.setResizable(false);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 	/**
