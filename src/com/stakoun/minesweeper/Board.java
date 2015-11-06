@@ -6,21 +6,18 @@ package com.stakoun.minesweeper;
  */
 public class Board
 {
-	private int width, height;
 	private Tile[][] tiles;
 	
 	/**
 	 * The sole constructor for the Board class.
-	 * @param width
-	 * @param height
+	 * @param frameLength
+	 * @param boardLength
 	 */
-	public Board(int width, int height)
+	public Board(int length)
 	{
-		this.width = width;
-		this.height = height;
-		tiles = new Tile[width][height];
-		for (int i = 0; i < width; i++) {
-			for (int j = 0; j < height; j++) {
+		tiles = new Tile[length][length];
+		for (int i = 0; i < length; i++) {
+			for (int j = 0; j < length; j++) {
 				tiles[i][j] = new Tile();
 			}
 		}
