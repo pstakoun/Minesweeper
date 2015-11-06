@@ -6,7 +6,7 @@ package com.stakoun.minesweeper;
  */
 public class Tile
 {
-	private boolean isMine, hasFlag;
+	private boolean isMine, hasFlag, isVisible;
 	
 	/**
 	 * The sole constructor for the Tile class.
@@ -18,12 +18,17 @@ public class Tile
 	
 	public void addMine() { isMine = true; }
 	
-	public void addFlag() { hasFlag = true; }
+	public void toggleFlag() {
+		if (hasFlag) { hasFlag = false; }
+		else { hasFlag = true; }
+	}
 	
-	public void removeFlag() { hasFlag = false; }
+	public void show() { isVisible = true; }
 	
 	public boolean isMine() { return isMine; }
 	
 	public boolean hasFlag() { return hasFlag; }
+	
+	public boolean isVisible() { return isVisible; }
 
 }

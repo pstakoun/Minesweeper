@@ -36,7 +36,7 @@ public class Game
 	}
 
 	/**
-	 * The main method creates a new instance of Game.
+	 * The main method creates a new instance of the Game class.
 	 * @param args
 	 */
 	public static void main(String[] args)
