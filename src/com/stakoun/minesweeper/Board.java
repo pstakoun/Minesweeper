@@ -35,7 +35,7 @@ public class Board extends JPanel
 		tiles = new Tile[boardLength][boardLength];
 		for (int i = 0; i < boardLength; i++) {
 			for (int j = 0; j < boardLength; j++) {
-				tiles[i][j] = new Tile();
+				tiles[i][j] = new Tile(i, j);
 			}
 		}
 		addMouseListener(new TileClickListener(this));
@@ -69,6 +69,16 @@ public class Board extends JPanel
 			}
 		}
 	}
+	
+	public void resetTiles()
+	{
+		for (int i = 0; i < boardLength; i++) {
+			for (int j = 0; j < boardLength; j++) {
+				tiles[i][j].reset();
+			}
+		}
+		repaint();
+	}
 
 	public void showTile(int x, int y)
 	{
@@ -76,6 +86,10 @@ public class Board extends JPanel
 		if (game.getState() == Game.PREGAME) {
 			initMines(tile);
 			game.setState(Game.INGAME);
+		} else if (game.getState() == Game.POSTGAME) {
+			resetTiles();
+			game.setState(Game.PREGAME);
+			return;
 		}
 		if (!tile.hasFlag()) {
 			tile.show();
@@ -99,6 +113,11 @@ public class Board extends JPanel
 
 	public void flagTile(int x, int y)
 	{
+		if (game.getState() == Game.POSTGAME) {
+			resetTiles();
+			game.setState(Game.PREGAME);
+			return;
+		}
 		Tile tile = tiles[x/tileLength][y/tileLength];
 		tile.toggleFlag();
 		repaint();

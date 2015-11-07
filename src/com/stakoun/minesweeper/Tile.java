@@ -6,14 +6,23 @@ package com.stakoun.minesweeper;
  */
 public class Tile
 {
+	private int x, y;
 	private boolean hasMine, hasFlag, isVisible;
 	private int surroundingMines;
 	
 	/**
 	 * The sole constructor for the Tile class.
 	 */
-	public Tile()
+	public Tile(int x, int y)
 	{
+		this.x = x;
+		this.y = y;
+		surroundingMines = 0;
+	}
+	
+	public void reset()
+	{
+		hasMine = hasFlag = isVisible = false;
 		surroundingMines = 0;
 	}
 	
