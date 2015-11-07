@@ -6,7 +6,7 @@ package com.stakoun.minesweeper;
  */
 public class Tile
 {
-	private boolean isMine, hasFlag, isVisible;
+	private boolean hasMine, hasFlag, isVisible;
 	private int surroundingMines;
 	
 	/**
@@ -17,7 +17,7 @@ public class Tile
 		surroundingMines = 0;
 	}
 	
-	public void addMine() { isMine = true; }
+	public void addMine() { hasMine = true; }
 	
 	public void toggleFlag() {
 		if (hasFlag) { hasFlag = false; }
@@ -28,7 +28,7 @@ public class Tile
 	
 	public void addSurroundingMine() { surroundingMines++; }
 	
-	public boolean isMine() { return isMine; }
+	public boolean hasMine() { return hasMine; }
 	
 	public boolean hasFlag() { return hasFlag; }
 	

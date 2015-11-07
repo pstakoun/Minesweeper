@@ -10,7 +10,12 @@ import javax.swing.JFrame;
  */
 public class Game
 {
-	private int frameLength, boardLength;
+	// Declare game state constants
+	public static final int PREGAME = 0;
+	public static final int INGAME = 1;
+	public static final int POSTGAME = 2;
+	
+	private int frameLength, boardLength, numMines, state;
 	private Dimension boardSize;
 	private JFrame frame;
 	private Board board;
@@ -23,19 +28,21 @@ public class Game
 		// Initialize sizes
 		frameLength = 500;
 		boardLength = 10;
+		numMines = 20;
 		
 		// Initialize game board
 		boardSize = new Dimension(500, 500);
 		frame = new JFrame("Minesweeper");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		board = new Board(frameLength, boardLength);
+		board = new Board(this, frameLength, boardLength, numMines);
 		board.setPreferredSize(boardSize);
 		frame.add(board);
 		frame.setResizable(false);
 		frame.pack();
 		frame.setVisible(true);
 		
-		// TODO Initialize game state
+		// Initialize game state
+		state = PREGAME;
 	}
 
 	/**
@@ -46,5 +53,9 @@ public class Game
 	{
 		new Game();
 	}
+	
+	public void setState(int state) { this.state = state; }
+	
+	public int getState() { return state; }
 
 }

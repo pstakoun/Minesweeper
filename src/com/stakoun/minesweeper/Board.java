@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
@@ -15,7 +16,8 @@ import javax.swing.JPanel;
  */
 public class Board extends JPanel
 {
-	private int frameLength, boardLength, tileLength;
+	private int frameLength, boardLength, tileLength, numMines;
+	private Game game;
 	private Tile[][] tiles;
 
 	/**
@@ -23,11 +25,13 @@ public class Board extends JPanel
 	 * 
 	 * @param length
 	 */
-	public Board(int frameLength, int boardLength)
+	public Board(Game game, int frameLength, int boardLength, int numMines)
 	{
+		this.game = game;
 		this.frameLength = frameLength;
 		this.boardLength = boardLength;
 		this.tileLength = frameLength / boardLength;
+		this.numMines = numMines;
 		tiles = new Tile[boardLength][boardLength];
 		for (int i = 0; i < boardLength; i++) {
 			for (int j = 0; j < boardLength; j++) {
@@ -50,12 +54,17 @@ public class Board extends JPanel
 		for (int i = 0; i < boardLength; i++) {
 			for (int j = 0; j < boardLength; j++) {
 				if (tiles[i][j].isVisible()) {
-					g2d.drawString(String.valueOf(tiles[i][j].getSurroundingMines()), i*tileLength+tileLength/2, j*tileLength+tileLength/2);
+					if (tiles[i][j].hasMine()) {
+						g2d.setColor(Color.RED);
+						g2d.fillRect(i*tileLength, j*tileLength, tileLength, tileLength);
+					} else {
+						g2d.setColor(Color.BLACK);
+						g2d.drawString(String.valueOf(tiles[i][j].getSurroundingMines()), i*tileLength+tileLength/2, j*tileLength+tileLength/2);
+					}
 				}
 				else if (tiles[i][j].hasFlag()) {
-					g2d.setColor(Color.RED);
+					g2d.setColor(Color.LIGHT_GRAY);
 					g2d.fillRect(i*tileLength, j*tileLength, tileLength, tileLength);
-					g2d.setColor(Color.BLACK);
 				}
 			}
 		}
@@ -64,9 +73,27 @@ public class Board extends JPanel
 	public void showTile(int x, int y)
 	{
 		Tile tile = tiles[x/tileLength][y/tileLength];
+		if (game.getState() == Game.PREGAME) {
+			initMines(tile);
+			game.setState(Game.INGAME);
+		}
 		if (!tile.hasFlag()) {
 			tile.show();
 			repaint();
+			if (tile.hasMine()) {
+				game.setState(Game.POSTGAME);
+			}
+		}
+	}
+	
+	public void initMines(Tile initTile)
+	{
+		for (int i = 0; i < numMines; i++) {
+			Tile tile;
+			do {
+				tile = getRandomTile();
+			} while (tile.hasMine() || tile == initTile);
+			tile.addMine();
 		}
 	}
 
@@ -76,6 +103,15 @@ public class Board extends JPanel
 		tile.toggleFlag();
 		repaint();
 	}
+	
+	private Tile getRandomTile()
+	{
+		Random rand = new Random();
+		int x = rand.nextInt(boardLength);
+		int y = rand.nextInt(boardLength);
+		return tiles[x][y];
+	}
+	
 }
 
 class TileClickListener extends MouseAdapter
