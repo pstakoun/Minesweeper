@@ -1,6 +1,7 @@
 package com.stakoun.minesweeper;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
@@ -16,7 +17,7 @@ import javax.swing.JPanel;
  */
 public class Board extends JPanel
 {
-	private int frameLength, boardLength, tileLength, numMines;
+	private int frameLength, boardLength, tileLength, numMines, numTilesVisible;
 	private Game game;
 	private Tile[][] tiles;
 
@@ -33,11 +34,9 @@ public class Board extends JPanel
 		this.tileLength = frameLength / boardLength;
 		this.numMines = numMines;
 		tiles = new Tile[boardLength][boardLength];
-		for (int i = 0; i < boardLength; i++) {
-			for (int j = 0; j < boardLength; j++) {
+		for (int i = 0; i < boardLength; i++)
+			for (int j = 0; j < boardLength; j++)
 				tiles[i][j] = new Tile(i, j);
-			}
-		}
 		addMouseListener(new TileClickListener(this));
 	}
 
@@ -45,6 +44,8 @@ public class Board extends JPanel
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
+		if (game.getState() != Game.LOSE && numTilesVisible == boardLength*boardLength-numMines)
+			game.setState(Game.WIN);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		for (int i = tileLength; i < frameLength; i += tileLength) {
@@ -61,7 +62,6 @@ public class Board extends JPanel
 					} else {
 						g2d.setColor(Color.BLACK);
 						g2d.drawString(String.valueOf(tile.getSurroundingMines()), i*tileLength+tileLength/2, j*tileLength+tileLength/2);
-						System.out.println(tile.getSurroundingMines());
 					}
 				}
 				else if (tiles[i][j].hasFlag()) {
@@ -70,15 +70,19 @@ public class Board extends JPanel
 				}
 			}
 		}
+		if (game.getState() == Game.WIN) {
+			g2d.setColor(Color.GREEN);
+			g2d.setFont(new Font("default", Font.BOLD, 36));
+			g2d.drawString("You win!", frameLength/3, frameLength/2);
+		}
 	}
 	
-	private void resetTiles()
+	private void reset()
 	{
-		for (int i = 0; i < boardLength; i++) {
-			for (int j = 0; j < boardLength; j++) {
+		for (int i = 0; i < boardLength; i++)
+			for (int j = 0; j < boardLength; j++)
 				tiles[i][j].reset();
-			}
-		}
+		numTilesVisible = 0;
 		repaint();
 	}
 	
@@ -161,18 +165,18 @@ public class Board extends JPanel
 			initMines(tile);
 			game.setState(Game.INGAME);
 		} else if (game.getState() == Game.LOSE || game.getState() == Game.WIN) {
-			resetTiles();
+			reset();
 			game.setState(Game.PREGAME);
 			return;
 		}
 		if (!tile.hasFlag()) {
 			tile.show();
+			numTilesVisible++;
 			if (tile.getSurroundingMines() == 0)
 				showSurroundingTiles(tile);
-			repaint();
-			if (tile.hasMine()) {
+			if (tile.hasMine())
 				game.setState(Game.LOSE);
-			}
+			repaint();
 		}
 	}
 
@@ -183,24 +187,25 @@ public class Board extends JPanel
 			initMines(tile);
 			game.setState(Game.INGAME);
 		} else if (game.getState() == Game.LOSE || game.getState() == Game.WIN) {
-			resetTiles();
+			reset();
 			game.setState(Game.PREGAME);
 			return;
 		}
 		if (!tile.hasFlag()) {
 			tile.show();
-			showSurroundingTiles(tile);
+			numTilesVisible++;
+			if (!tile.hasMine())
+				showSurroundingTiles(tile);
 			repaint();
-			if (tile.hasMine()) {
+			if (tile.hasMine())
 				game.setState(Game.LOSE);
-			}
 		}
 	}
 	
 	public void flagTile(int x, int y)
 	{
 		if (game.getState() == Game.LOSE || game.getState() == Game.WIN) {
-			resetTiles();
+			reset();
 			game.setState(Game.PREGAME);
 			return;
 		}
@@ -222,11 +227,10 @@ class TileClickListener extends MouseAdapter
 
 	public void mousePressed(MouseEvent e)
 	{
-		if (e.getButton() == MouseEvent.BUTTON1) {
+		if (e.getButton() == MouseEvent.BUTTON1)
 			board.showTile(e.getX(), e.getY());
-		} else if (e.getButton() == MouseEvent.BUTTON3) {
+		else if (e.getButton() == MouseEvent.BUTTON3)
 			board.flagTile(e.getX(), e.getY());
-		}
 	}
 
 }
