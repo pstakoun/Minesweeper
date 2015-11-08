@@ -32,7 +32,7 @@ public class Game
 		this.numMines = numMines;
 		
 		// Initialize game board
-		boardSize = new Dimension(500, 500);
+		boardSize = new Dimension(frameLength, frameLength);
 		frame = new JFrame("Minesweeper");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board = new Board(this, frameLength, boardLength, numMines);
@@ -57,7 +57,7 @@ public class Game
 		numMines = 15;
 		
 		// Initialize game board
-		boardSize = new Dimension(500, 500);
+		boardSize = new Dimension(frameLength, frameLength);
 		frame = new JFrame("Minesweeper");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board = new Board(this, frameLength, boardLength, numMines);
