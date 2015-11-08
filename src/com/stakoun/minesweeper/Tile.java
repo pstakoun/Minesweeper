@@ -29,8 +29,10 @@ public class Tile
 	public void addMine() { hasMine = true; }
 	
 	public void toggleFlag() {
-		if (hasFlag) { hasFlag = false; }
-		else { hasFlag = true; }
+		if (hasFlag)
+			hasFlag = false;
+		else
+			hasFlag = true;
 	}
 	
 	public void show() { isVisible = true; }
