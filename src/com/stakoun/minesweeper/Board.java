@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  */
 public class Board extends JPanel
 {
-	private int frameLength, boardLength, tileLength, numMines, numTilesVisible;
+	private int frameLength, boardLength, tileLength, numMines;
 	private Game game;
 	private Tile[][] tiles;
 
@@ -82,7 +82,6 @@ public class Board extends JPanel
 		for (int i = 0; i < boardLength; i++)
 			for (int j = 0; j < boardLength; j++)
 				tiles[i][j].reset();
-		numTilesVisible = 0;
 		repaint();
 	}
 	
@@ -171,7 +170,6 @@ public class Board extends JPanel
 		}
 		if (!tile.hasFlag()) {
 			tile.show();
-			numTilesVisible++;
 			if (tile.getSurroundingMines() == 0)
 				showSurroundingTiles(tile);
 			if (tile.hasMine())
@@ -202,7 +200,6 @@ public class Board extends JPanel
 		}
 		if (!tile.hasFlag()) {
 			tile.show();
-			numTilesVisible++;
 			if (!tile.hasMine())
 				showSurroundingTiles(tile);
 			repaint();
