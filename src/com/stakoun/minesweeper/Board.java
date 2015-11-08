@@ -2,10 +2,12 @@ package com.stakoun.minesweeper;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.geom.Rectangle2D;
 import java.util.Random;
 
 import javax.swing.JPanel;
@@ -61,7 +63,7 @@ public class Board extends JPanel
 						g2d.fillRect(i*tileLength+1, j*tileLength+1, tileLength-1, tileLength-1);
 					} else {
 						g2d.setColor(Color.BLACK);
-						g2d.drawString(String.valueOf(tile.getSurroundingMines()), i*tileLength+tileLength/2, j*tileLength+tileLength/2);
+						drawStringInCenter(g2d, String.valueOf(tile.getSurroundingMines()), i*tileLength*2+tileLength, j*tileLength*2+tileLength);
 					}
 				}
 				else if (tiles[i][j].hasFlag()) {
@@ -72,8 +74,8 @@ public class Board extends JPanel
 		}
 		if (game.getState() == Game.WIN) {
 			g2d.setColor(Color.GREEN);
-			g2d.setFont(new Font("default", Font.BOLD, 36));
-			g2d.drawString("You win!", frameLength/3, frameLength/2);
+			g2d.setFont(new Font("default", Font.BOLD, 42));
+			drawStringInCenter(g2d, "You win!", frameLength, frameLength);
 		}
 	}
 	
@@ -97,8 +99,7 @@ public class Board extends JPanel
 				xDiff = tile.getX()-initTile.getX();
 				yDiff = tile.getY()-initTile.getY();
 			} while (tile.hasMine() || tile == initTile
-					|| (xDiff < 2 && xDiff > -2
-					&& yDiff < 2 && yDiff > -2));
+					|| (xDiff < 2 && xDiff > -2 && yDiff < 2 && yDiff > -2));
 			for (Tile t : surrounding)
 				t.addSurroundingMine();
 			tile.addMine();
@@ -185,6 +186,15 @@ public class Board extends JPanel
 				if (!tile.hasMine() && !tile.isVisible())
 					return false;
 		return true;
+	}
+	
+	private void drawStringInCenter(Graphics2D g, String s, int w, int h)
+	{
+        FontMetrics fm = g.getFontMetrics();
+        Rectangle2D r = fm.getStringBounds(s, g);
+        int x = (w-(int)r.getWidth())/2;
+        int y = (h-(int)r.getHeight())/2+fm.getAscent();
+        g.drawString(s, x, y);
 	}
 
 	public void showTile(int x, int y)
