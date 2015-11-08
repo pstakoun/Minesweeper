@@ -13,7 +13,8 @@ public class Game
 	// Declare game state constants
 	public static final int PREGAME = 0;
 	public static final int INGAME = 1;
-	public static final int POSTGAME = 2;
+	public static final int WIN = 2;
+	public static final int LOSE = 2;
 	
 	private int frameLength, boardLength, numMines, state;
 	private Dimension boardSize;

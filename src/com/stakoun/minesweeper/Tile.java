@@ -37,6 +37,10 @@ public class Tile
 	
 	public void addSurroundingMine() { surroundingMines++; }
 	
+	public int getX() { return x; }
+	
+	public int getY() { return y; }
+	
 	public boolean hasMine() { return hasMine; }
 	
 	public boolean hasFlag() { return hasFlag; }
