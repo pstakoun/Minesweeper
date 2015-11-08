@@ -20,32 +20,7 @@ public class Game
 	private Dimension boardSize;
 	private JFrame frame;
 	private Board board;
-	
-	/**
-	 * The default constructor for the Game class.
-	 */
-	public Game()
-	{
-		// Initialize sizes
-		frameLength = 500;
-		boardLength = 10;
-		numMines = 15;
-		
-		// Initialize game board
-		boardSize = new Dimension(500, 500);
-		frame = new JFrame("Minesweeper");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		board = new Board(this, frameLength, boardLength, numMines);
-		board.setPreferredSize(boardSize);
-		frame.add(board);
-		frame.setResizable(false);
-		frame.pack();
-		frame.setVisible(true);
-		
-		// Initialize game state
-		state = PREGAME;
-	}
-	
+
 	/**
 	 * The main constructor for the Game class.
 	 */
@@ -71,6 +46,31 @@ public class Game
 		state = PREGAME;
 	}
 
+	/**
+	 * The default constructor for the Game class.
+	 */
+	public Game()
+	{
+		// Initialize sizes
+		frameLength = 500;
+		boardLength = 10;
+		numMines = 15;
+		
+		// Initialize game board
+		boardSize = new Dimension(500, 500);
+		frame = new JFrame("Minesweeper");
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		board = new Board(this, frameLength, boardLength, numMines);
+		board.setPreferredSize(boardSize);
+		frame.add(board);
+		frame.setResizable(false);
+		frame.pack();
+		frame.setVisible(true);
+		
+		// Initialize game state
+		state = PREGAME;
+	}
+	
 	/**
 	 * The main method creates a new instance of the Game class.
 	 * @param args
