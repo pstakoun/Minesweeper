@@ -44,7 +44,7 @@ public class Board extends JPanel
 	protected void paintComponent(Graphics g)
 	{
 		super.paintComponent(g);
-		if (game.getState() != Game.LOSE && numTilesVisible == boardLength*boardLength-numMines)
+		if (allTilesVisible())
 			game.setState(Game.WIN);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
@@ -178,6 +178,15 @@ public class Board extends JPanel
 				game.setState(Game.LOSE);
 			repaint();
 		}
+	}
+	
+	private boolean allTilesVisible()
+	{
+		for (Tile[] tileRow : tiles)
+			for (Tile tile : tileRow)
+				if (!tile.hasMine() && !tile.isVisible())
+					return false;
+		return true;
 	}
 
 	public void showTile(int x, int y)
