@@ -81,7 +81,7 @@ public class Game
 			int a = Integer.parseInt(args[0]);
 			int b = Integer.parseInt(args[1]);
 			int c = Integer.parseInt(args[2]);
-			if (a % b != 0)
+			if (a % b != 0 || a < 0 || b < a || c < 0)
 				throw new Exception();
 			new Game(a, b, c);
 		} catch (Exception e) {
