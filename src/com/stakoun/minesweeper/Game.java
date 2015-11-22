@@ -83,7 +83,7 @@ public class Game
 			int b = Integer.parseInt(args[1]);
 			int c = Integer.parseInt(args[2]);
 			// Disallow invalid arguments
-			if (a % b != 0 || a < 0 || b < a || c < 0)
+			if (a % b != 0 || b < 1 || a < b || c < 0)
 				throw new Exception();
 			new Game(a, b, c);
 		} catch (Exception e) {
